@@ -160,6 +160,16 @@
         android:text="update_value"
         android:textColor="@color/primary"
         />
-
-
+    <Button
+        android:id="@+id/btn_log_out"
+        android:layout_width="wrap_content"
+        android:text="Log Out"
+        android:background="@drawable/bg_button"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="30dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

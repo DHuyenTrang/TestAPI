@@ -1,8 +1,11 @@
 package com.example.testapiapplication.repository
 
 import com.example.testapiapplication.network.RetrofitAPI
+import com.example.testapiapplication.request.RefreshTokenRequest
 import com.example.testapiapplication.request.UserRequest
+import com.example.testapiapplication.response.RefreshTokenResponse
 import com.example.testapiapplication.response.UserResponse
+import retrofit2.Call
 import retrofit2.Response
 import javax.inject.Inject
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.testapiapplication.R
 import com.example.testapiapplication.databinding.FragmentProfileBinding
 import com.example.testapiapplication.databinding.FragmentSignInBinding
@@ -47,6 +48,11 @@ class ProfileFragment : Fragment() {
                     binding.tvSignInProviderValue.text = it.sign_in_provider
                 }
             }
+        }
+
+        binding.btnLogOut.setOnClickListener {
+            viewModel.logout()
+            findNavController().navigate(R.id.signInFragment)
         }
     }
 

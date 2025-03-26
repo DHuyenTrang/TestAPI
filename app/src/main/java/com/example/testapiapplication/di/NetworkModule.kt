@@ -1,10 +1,13 @@
 package com.example.testapiapplication.di
 
+import com.example.testapiapplication.network.AuthInterceptor
 import com.example.testapiapplication.network.RetrofitAPI
+import com.example.testapiapplication.network.TokenRefreshInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.POST
@@ -17,9 +20,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -28,5 +32,17 @@ object NetworkModule {
     @Singleton
     fun provideRetrofitAPI(retrofit: Retrofit): RetrofitAPI {
         return retrofit.create(RetrofitAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor,
+        tokenRefreshInterceptor: TokenRefreshInterceptor,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .addInterceptor(tokenRefreshInterceptor)
+            .build()
     }
 }

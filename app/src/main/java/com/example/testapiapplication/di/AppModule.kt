@@ -19,10 +19,4 @@ object AppModule {
         return TokenManager(context)
     }
 
-    @Provides
-    @Singleton
-    fun provideUserPrefs(@ApplicationContext context: Context): UserPrefs {
-        return UserPrefs(context)
-    }
-
 }

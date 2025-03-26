@@ -19,7 +19,6 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val tokenManager: TokenManager,
-    private val userPrefs: UserPrefs
 ) : ViewModel() {
 
     private val _isLoginSuccessful = MutableStateFlow<Boolean?>(null)
@@ -33,7 +32,7 @@ class SignInViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let {
                         tokenManager.saveToken(it.access_token, it.refresh_token)
-                        userPrefs.saveUserId(it.customer_id)
+                        tokenManager.saveUserId(it.customer_id)
                         _isLoginSuccessful.value = true
                         Log.d("Auth", "Login Success: ${it.access_token}")
                     }

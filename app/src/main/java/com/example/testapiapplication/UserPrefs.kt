@@ -16,4 +16,8 @@ class UserPrefs @Inject constructor(context: Context) {
     fun getUserId(): String? {
         return sharePrefs.getString("user_id", null)
     }
+
+    fun clearUserId() {
+        sharePrefs.edit().remove("user_id").apply()
+    }
 }

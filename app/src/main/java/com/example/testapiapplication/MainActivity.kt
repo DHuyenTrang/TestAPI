@@ -11,10 +11,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.testapiapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    @Inject lateinit var tokenManager: TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,5 +37,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        if (checkCurrentUser()) {
+            controller.navigate(R.id.profileFragment)
+        }
+    }
+
+    private fun checkCurrentUser(): Boolean {
+        return tokenManager.getUserId() != null
     }
 }
