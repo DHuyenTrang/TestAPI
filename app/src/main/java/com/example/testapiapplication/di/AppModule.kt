@@ -2,7 +2,6 @@ package com.example.testapiapplication.di
 
 import android.content.Context
 import com.example.testapiapplication.TokenManager
-import com.example.testapiapplication.UserPrefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

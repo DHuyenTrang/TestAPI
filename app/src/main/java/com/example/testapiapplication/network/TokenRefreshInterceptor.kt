@@ -2,8 +2,8 @@ package com.example.testapiapplication.network
 
 import android.util.Log
 import com.example.testapiapplication.TokenManager
-import com.example.testapiapplication.repository.AuthRepository
-import com.example.testapiapplication.request.RefreshTokenRequest
+import com.example.testapiapplication.di.BaseUrl1
+import com.example.testapiapplication.data.request.RefreshTokenRequest
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -11,11 +11,13 @@ import javax.inject.Provider
 
 class TokenRefreshInterceptor @Inject constructor(
     private val tokenManager: TokenManager,
-    private val retrofitAPIProvider: Provider<RetrofitAPI>
+    @BaseUrl1 private val retrofitAPIProvider: Provider<RetrofitAPI>
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
+        Log.d("AUTH", "${tokenManager.getRefreshToken()}")
+        Log.d("AUTH", "${response.code}")
 
         if (response.code == 401) { // Unauthorized -> Refresh token
             synchronized(this) {
@@ -23,7 +25,6 @@ class TokenRefreshInterceptor @Inject constructor(
                 val newToken = refreshToken()
                 return if (newToken != null) {
                     val newRequest = request.newBuilder()
-                        .addHeader("Authorization", "Bearer $newToken")
                         .build()
                     chain.proceed(newRequest)
                 } else {
@@ -39,7 +40,7 @@ class TokenRefreshInterceptor @Inject constructor(
 
         return try {
             val retrofitAPI = retrofitAPIProvider.get()
-            val response = retrofitAPI.getRefreshToken(RefreshTokenRequest(refreshToken)).execute() // ✅ Directly call RetrofitAPI
+            val response = retrofitAPI.getRefreshToken(RefreshTokenRequest(refreshToken)).execute()
             if (response.isSuccessful) {
                 val newTokens = response.body()!!
                 Log.d("AUTH", "New access token: ${newTokens.access_token}")

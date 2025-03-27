@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.testapiapplication.R
 import com.example.testapiapplication.databinding.FragmentHomeBinding
-import com.example.testapiapplication.response.DataResponse
+import com.example.testapiapplication.data.response.DataResponse
+import com.example.testapiapplication.ui.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -19,7 +19,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val profileViewModel: ProfileViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,21 +34,31 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchData(10.7589616, 106.692952)
         val recyclerView = binding.listItem
         recyclerView.adapter = ItemListAdapter()
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
+        viewLifecycleOwner.lifecycleScope.run {
+            launch { observeProfile() }
+            launch { observeOsmID() }
+        }
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            val osmIds = mutableListOf<String>()
-            viewModel.dataResponses.collect { dataResponses ->
-                dataResponses?.let {
-                    for(item: DataResponse in it) {
-                        osmIds.add(item.osm_id.toString())
-                    }
-                    (recyclerView.adapter as ItemListAdapter).submitList(osmIds)
+    private suspend fun observeProfile() {
+        profileViewModel.profileResponse.collect { profile ->
+            profile?.let {
+                binding.tvSignInProviderValue.text = it.sign_in_provider
+            }
+        }
+    }
+    private suspend fun observeOsmID() {
+        val osmIds = mutableListOf<String>()
+        homeViewModel.dataResponses.collect { dataResponses ->
+            dataResponses?.let {
+                for(item: DataResponse in it) {
+                    osmIds.add(item.osm_id.toString())
                 }
+                (binding.listItem.adapter as ItemListAdapter).submitList(osmIds)
             }
         }
     }

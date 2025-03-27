@@ -1,4 +1,4 @@
-package com.example.testapiapplication.response
+package com.example.testapiapplication.data.response
 
 data class DataResponse(
     val osm_id: Long,

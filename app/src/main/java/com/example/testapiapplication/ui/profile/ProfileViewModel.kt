@@ -2,16 +2,12 @@ package com.example.testapiapplication.ui.profile
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.testapiapplication.TokenManager
-import com.example.testapiapplication.UserPrefs
-import com.example.testapiapplication.repository.AuthRepository
 import com.example.testapiapplication.repository.ProfileRepository
-import com.example.testapiapplication.response.ProfileResponse
+import com.example.testapiapplication.data.response.ProfileResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,9 +19,10 @@ class ProfileViewModel @Inject constructor(
     private val _profileResponse = MutableStateFlow<ProfileResponse?>(null)
     val profileResponse: StateFlow<ProfileResponse?> = _profileResponse
 
-    fun fetchProfile() {
+    suspend fun fetchProfile() {
+        Log.d("Fetch Data", "Start fetch Profile ${System.currentTimeMillis()}")
 
-        viewModelScope.launch {
+        //viewModelScope.launch {
             try {
                 val response = profileRepository.getProfile()
                 if (response.isSuccessful) {
@@ -38,7 +35,8 @@ class ProfileViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e("ProfileViewModel", "API Error: ${e.localizedMessage}")
             }
-        }
+        //}
+        Log.d("Fetch Data", "Complete fetch Profile ${System.currentTimeMillis()}")
     }
     fun logout() {
         tokenManager.clearToken()

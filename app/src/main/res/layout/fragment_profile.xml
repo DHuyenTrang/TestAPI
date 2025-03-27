@@ -160,6 +160,28 @@
         android:text="update_value"
         android:textColor="@color/primary"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_sign_in_provider"
+        android:text="FirstOsmID:"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/tv_osm_id"
+        android:layout_margin="35dp"
+        android:textSize="20sp"
+        android:textColor="@color/primary"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_osm_id"
+        app:layout_constraintStart_toEndOf="@id/tv_osm_id"
+        android:id="@+id/tv_osm_id_value"
+        android:layout_marginStart="20dp"
+        android:textSize="20sp"
+        android:text="osm_value"
+        android:textColor="@color/primary"
+        />
     <Button
         android:id="@+id/btn_log_out"
         android:layout_width="wrap_content"

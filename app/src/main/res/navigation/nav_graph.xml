@@ -24,4 +24,9 @@
             android:id="@+id/action_signInFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/reverseFragment"
+        android:name="com.example.testapiapplication.ui.reverse.ReverseFragment"
+        android:label="fragment_reverse"
+        tools:layout="@layout/fragment_reverse" />
 </navigation>

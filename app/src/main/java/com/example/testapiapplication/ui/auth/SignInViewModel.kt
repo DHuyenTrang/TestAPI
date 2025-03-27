@@ -4,11 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testapiapplication.TokenManager
-import com.example.testapiapplication.UserPrefs
 import com.example.testapiapplication.repository.AuthRepository
-import com.example.testapiapplication.request.UserRequest
-import com.example.testapiapplication.response.UserResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,7 +23,7 @@ class SignInViewModel @Inject constructor(
     val isLoginSuccessful: StateFlow<Boolean?> = _isLoginSuccessful.asStateFlow()
 
     fun fetchUser(phoneNumber: String, password: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = authRepository.login(phoneNumber, password)
 
@@ -34,7 +32,7 @@ class SignInViewModel @Inject constructor(
                         tokenManager.saveToken(it.access_token, it.refresh_token)
                         tokenManager.saveUserId(it.customer_id)
                         _isLoginSuccessful.value = true
-                        Log.d("Auth", "Login Success: ${it.access_token}")
+                        //Log.d("Auth", "Login Success: ${it.access_token}")
                     }
                 } else {
                     Log.e("Auth", "Login Failed: ${response.errorBody()?.string()}")

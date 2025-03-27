@@ -1,4 +1,4 @@
-package com.example.testapiapplication.request
+package com.example.testapiapplication.data.request
 
 data class UserRequest(
     val phone_number: String,
