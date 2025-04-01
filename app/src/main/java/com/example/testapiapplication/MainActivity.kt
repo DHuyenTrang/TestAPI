@@ -3,27 +3,21 @@ package com.example.testapiapplication
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.whenCreated
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.testapiapplication.databinding.ActivityMainBinding
 import com.example.testapiapplication.ui.home.HomeViewModel
 import com.example.testapiapplication.ui.profile.ProfileViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    @Inject lateinit var tokenManager: TokenManager
 
-    private val profileViewModel: ProfileViewModel by viewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val tokenManager: TokenManager by inject()
+    private val profileViewModel: ProfileViewModel by viewModel()
+    private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

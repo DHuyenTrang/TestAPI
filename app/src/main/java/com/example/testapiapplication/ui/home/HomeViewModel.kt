@@ -4,14 +4,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.testapiapplication.repository.DataPointRepository
 import com.example.testapiapplication.data.response.DataResponse
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
 
-@HiltViewModel
-class HomeViewModel @Inject constructor(
+class HomeViewModel(
     private val dataPointRepository: DataPointRepository,
 ) : ViewModel() {
     private val _dataResponses = MutableStateFlow<List<DataResponse>?>(null)

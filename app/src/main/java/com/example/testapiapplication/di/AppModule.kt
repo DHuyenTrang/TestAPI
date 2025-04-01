@@ -1,21 +1,14 @@
 package com.example.testapiapplication.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.example.testapiapplication.TokenManager
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
-    @Provides
-    @Singleton
-    fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
-        return TokenManager(context)
-    }
+val appModule = module{
+
+    single<SharedPreferences> { androidContext().getSharedPreferences("authPrefs", Context.MODE_PRIVATE) }
+    single { TokenManager(androidContext()) }
 
 }

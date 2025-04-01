@@ -3,11 +3,10 @@ package com.example.testapiapplication
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import javax.inject.Inject
 
-class TokenManager @Inject constructor(context: Context) {
+class TokenManager (context: Context) {
     private val authPrefs: SharedPreferences = context.getSharedPreferences("authPrefs", Context.MODE_PRIVATE)
-    val userPrefs: SharedPreferences = context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
+    private val userPrefs: SharedPreferences = context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
 
     fun saveToken(accessToken: String, refreshToken: String) {
         authPrefs.edit().apply {

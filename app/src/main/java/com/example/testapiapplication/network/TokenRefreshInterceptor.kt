@@ -2,17 +2,17 @@ package com.example.testapiapplication.network
 
 import android.util.Log
 import com.example.testapiapplication.TokenManager
-import com.example.testapiapplication.di.BaseUrl1
 import com.example.testapiapplication.data.request.RefreshTokenRequest
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
-import javax.inject.Provider
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class TokenRefreshInterceptor @Inject constructor(
+class TokenRefreshInterceptor(
     private val tokenManager: TokenManager,
-    @BaseUrl1 private val retrofitAPIProvider: Provider<RetrofitAPI>
-) : Interceptor {
+) : Interceptor, KoinComponent {
+    private val retrofitAPI: RetrofitAPI by inject()
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
@@ -39,7 +39,6 @@ class TokenRefreshInterceptor @Inject constructor(
         val refreshToken = tokenManager.getRefreshToken() ?: return null
 
         return try {
-            val retrofitAPI = retrofitAPIProvider.get()
             val response = retrofitAPI.getRefreshToken(RefreshTokenRequest(refreshToken)).execute()
             if (response.isSuccessful) {
                 val newTokens = response.body()!!

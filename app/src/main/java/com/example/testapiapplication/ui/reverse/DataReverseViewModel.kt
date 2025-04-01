@@ -6,15 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.testapiapplication.data.response.DataReverseResponse
 import com.example.testapiapplication.model.DataReverse
 import com.example.testapiapplication.repository.DataReverseRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class DataReverseViewModel @Inject constructor(
+class DataReverseViewModel (
     private val dataReverseRepository: DataReverseRepository,
 ): ViewModel() {
     private var _dataReverse = MutableStateFlow<List<DataReverse>?>(emptyList())

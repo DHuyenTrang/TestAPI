@@ -5,13 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.example.testapiapplication.TokenManager
 import com.example.testapiapplication.repository.ProfileRepository
 import com.example.testapiapplication.data.response.ProfileResponse
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
-@HiltViewModel
-class ProfileViewModel @Inject constructor(
+class ProfileViewModel(
     private val profileRepository: ProfileRepository,
     private val tokenManager: TokenManager
 ) : ViewModel() {
